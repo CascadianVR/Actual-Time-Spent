@@ -3,7 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Work_Timer_App"
         mc:Ignorable="d"
         Title="Actual-Time-Spent" Height="450" Width="800"
         WindowStyle="None"
@@ -11,6 +10,8 @@
         AllowsTransparency="True"
         MouseDown="OnMouseDown"
         >
+   
+    
     <Border Background="#263442" CornerRadius="10">
         <Grid RenderTransformOrigin="0.408,0.478">
 
@@ -25,6 +26,7 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
 
+            
 
             <Label Foreground="White" Background="Transparent" Grid.Row ="1" Grid.Column="0" Margin="10,-4,10,391">All Apps</Label>
             <Label Foreground="White" Background="Transparent" Grid.Row ="1" Grid.Column="1" Margin="10,-4,10,391">Selected Apps</Label>
@@ -33,6 +35,11 @@
             Width="Auto" 
             HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
             FontSize="25" Content="X" Grid.Column="2" Margin="351,-3,0,0" />
+
+            <Button Padding="0" Background="Transparent"  BorderBrush="Transparent" Foreground="White" Click="m_notifyIcon_Click"
+            Width="Auto" 
+            HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+            FontSize="25" Content="___" Grid.Column="2" Margin="326,-6,25,3" />
 
             <Border Grid.Row ="1" Grid.Column="0" >
                 <ListBox SelectionChanged="AddSelectedProcess" Margin="10,20,10,10" Foreground="White" Background="#1c4954" x:Name="FullProcessList" ></ListBox>

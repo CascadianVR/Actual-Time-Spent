@@ -36,15 +36,74 @@ namespace Actual_Time_Spent
         Stopwatch stopwatch = new Stopwatch();
         Stopwatch stopwatchiDLE = new Stopwatch();
         List<string> SelectedProcesses = new List<string>();
+        bool WindowOpen = true;
+        System.Windows.Forms.NotifyIcon m_notifyIcon;
 
         public MainWindow()
         {
             InitializeComponent();
             GetProcesses();
+
+            #if DEBUG
             AllocConsole();
+            #endif
+
+            m_notifyIcon = new System.Windows.Forms.NotifyIcon();
+            m_notifyIcon.BalloonTipText = "The app has been minimised. Click the tray icon to show.";
+            m_notifyIcon.BalloonTipTitle = "Actual-Time-Spent";
+            m_notifyIcon.Text = "Actual-Time-Spent";
+            m_notifyIcon.Icon = new System.Drawing.Icon("F:/Repositories/Work Timer App/Actual-Time-Spent/actual-time-spent.ico");
+            m_notifyIcon.Visible = true;
+            m_notifyIcon.Click += new EventHandler(m_notifyIcon_Click);
+            m_notifyIcon.ContextMenuStrip = new System.Windows.Forms.ContextMenuStrip();
+            m_notifyIcon.ContextMenuStrip.Items.Add("Exit", image: null, (s,e) => ExitApp());
 
             tmr.Interval = 10;
             tmr.Elapsed += Tmr_Tick;
+        }
+
+        private void m_notifyIcon_Click(object sender, EventArgs e)
+        {
+            if (e.GetType() == new RoutedEventArgs().GetType())
+            {
+                if (WindowOpen)
+                {
+                    WindowState = WindowState.Minimized;
+                    ShowInTaskbar = false;
+                    WindowOpen = false;
+                }
+                else if (!WindowOpen)
+                {
+                    ShowInTaskbar = true;
+                    WindowState = WindowState.Normal;
+                    WindowOpen = true;
+
+                    MainWindow window = (MainWindow)App.Current.MainWindow;
+                    window.Activate();
+                    window.Topmost = true;
+                }
+            }
+            else
+            {
+                System.Windows.Forms.MouseEventArgs me = (System.Windows.Forms.MouseEventArgs)e;
+                if (WindowOpen && me.Button == System.Windows.Forms.MouseButtons.Left)
+                {
+                    WindowState = WindowState.Minimized;
+                    ShowInTaskbar = false;
+                    WindowOpen = false;
+                }
+                else if (!WindowOpen && me.Button == System.Windows.Forms.MouseButtons.Left)
+                {
+                    ShowInTaskbar = true;
+                    WindowState = WindowState.Normal;
+                    WindowOpen = true;
+
+                    MainWindow window = (MainWindow)App.Current.MainWindow;
+                    window.Activate();
+                    window.Topmost = true;
+                }
+            }
+
         }
 
         private void GetProcesses(object sender = null, RoutedEventArgs e = null)
@@ -61,8 +120,10 @@ namespace Actual_Time_Spent
         
         private void ExitApp(object sender = null, RoutedEventArgs e = null)
         {
+            m_notifyIcon.Dispose();
             Application.Current.Shutdown();
         }
+       
 
         private void AddSelectedProcess(object sender, RoutedEventArgs e)
         {
@@ -140,7 +201,7 @@ namespace Actual_Time_Spent
 
             lastPoint = point;
 
-            Action act = () => { ElapsedTime.Content = stopwatch.Elapsed.Hours + " : " + stopwatch.Elapsed.Minutes + " : " + stopwatch.Elapsed.Seconds; };
+            Action act = () => { ElapsedTime.Content = stopwatch.Elapsed.Hours.ToString().PadLeft(2, '0') + " : " + stopwatch.Elapsed.Minutes.ToString().PadLeft(2, '0') + " : " + stopwatch.Elapsed.Seconds.ToString().PadLeft(2, '0'); };
             ElapsedTime.Dispatcher.Invoke(act);
         }
 
