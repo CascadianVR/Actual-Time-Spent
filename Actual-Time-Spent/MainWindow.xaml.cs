@@ -58,6 +58,7 @@ namespace Actual_Time_Spent
             m_notifyIcon.ContextMenuStrip = new System.Windows.Forms.ContextMenuStrip();
             m_notifyIcon.ContextMenuStrip.Items.Add("Exit", image: null, (s,e) => ExitApp());
 
+
             tmr.Interval = 10;
             tmr.Elapsed += Tmr_Tick;
         }

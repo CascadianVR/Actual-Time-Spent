@@ -14,6 +14,7 @@ namespace Actual_Time_Spent
 
     public partial class App : Application
     {
+        
     }
 
 }
