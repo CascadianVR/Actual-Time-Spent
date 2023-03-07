@@ -18,4 +18,11 @@ https://user-images.githubusercontent.com/90723146/223540678-f88aa195-7960-4a9f-
 
 ![image](https://user-images.githubusercontent.com/90723146/223328531-200c09cd-ba7b-48fa-834b-a972d5da777d.png)
 
+## Honorable mentions for name ideas
 
+- "Timer-inator"
+- "I did what?"
+- "That Time my Boss Found Too Much Reddit on My Browsing History, and My Friend Turned into a Timer to Fix My Bad Habits!"
+- "Genuinely Productive"
+- "Where Did It Go?"
+- "hurry up"
