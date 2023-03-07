@@ -4,19 +4,11 @@ using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
-using System.Threading.Tasks;
 using System.Timers;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
-namespace Work_Timer_App
+namespace Actual_Time_Spent
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -37,17 +29,21 @@ namespace Work_Timer_App
         [DllImport("user32.dll", SetLastError = true)]
         static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint processId);
 
+        [DllImport("user32.dll")]
+        static extern bool GetCursorPos(ref Point lpPoint);
+
         Timer tmr = new Timer();
         Stopwatch stopwatch = new Stopwatch();
+        Stopwatch stopwatchiDLE = new Stopwatch();
         List<string> SelectedProcesses = new List<string>();
 
         public MainWindow()
         {
             InitializeComponent();
             GetProcesses();
-            //AllocConsole();
+            AllocConsole();
 
-            tmr.Interval = 200;
+            tmr.Interval = 10;
             tmr.Elapsed += Tmr_Tick;
         }
 
@@ -61,6 +57,11 @@ namespace Work_Timer_App
             {
                 FullProcessList.Items.Add(p.ProcessName);
             }
+        }
+        
+        private void ExitApp(object sender = null, RoutedEventArgs e = null)
+        {
+            Application.Current.Shutdown();
         }
 
         private void AddSelectedProcess(object sender, RoutedEventArgs e)
@@ -85,15 +86,18 @@ namespace Work_Timer_App
         private void StartTimer(object sender, RoutedEventArgs e)
         {
             tmr.Start();
+            stopwatchiDLE.Start();
             PauseButton.Content = "Pause";
         }
 
         private void StopTimer(object sender, RoutedEventArgs e)
         {
             tmr.Stop();
+            stopwatchiDLE.Stop();
             PauseButton.Content = "Paused";
         }
 
+        Point lastPoint;
         private void Tmr_Tick(Object source, ElapsedEventArgs e)
         {
             uint procId;
@@ -103,14 +107,41 @@ namespace Work_Timer_App
             Process proc = Process.GetProcessById((int)procId);
             string name = proc.ProcessName;
 
+            Point point = new Point();
+            GetCursorPos(ref point);
+
             bool constainsName = ContainsName(name);
 
             if (constainsName && !stopwatch.IsRunning) stopwatch.Start();
-            else stopwatch.Stop();
-            //Console.WriteLine(constainsName + " | " + System.MathF.Round((float)stopwatch.Elapsed.TotalSeconds));
-            Action act = () => { ElapsedTime.Content = System.MathF.Round((float)stopwatch.Elapsed.TotalSeconds) + " Seconds"; };
+            else if (!constainsName)
+            {
+                stopwatch.Stop();
+                return;
+            }
+
+            double timeout = 10;
+            Action to = () => { timeout = Convert.ToDouble(Timeout.Text); };
+            ElapsedTime.Dispatcher.Invoke(to);
+
+            if (point.X == lastPoint.X)
+            {
+                if (stopwatchiDLE.Elapsed.TotalSeconds >= timeout)
+                {
+                    stopwatch.Stop();
+                    stopwatchiDLE.Stop();
+                }
+            }
+            else if (point.X != lastPoint.X)
+            {
+                stopwatchiDLE.Reset();
+                stopwatchiDLE.Start();
+                stopwatch.Start();
+            }
+
+            lastPoint = point;
+
+            Action act = () => { ElapsedTime.Content = stopwatch.Elapsed.Hours + " : " + stopwatch.Elapsed.Minutes + " : " + stopwatch.Elapsed.Seconds; };
             ElapsedTime.Dispatcher.Invoke(act);
-            //Console.WriteLine(ElapsedTime.Content.ToString());
         }
 
         private bool ContainsName(string name)

@@ -1,11 +1,11 @@
-﻿<Window x:Class="Work_Timer_App.MainWindow"
+﻿<Window x:Class="Actual_Time_Spent.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Work_Timer_App"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800"
+        Title="Actual-Time-Spent" Height="450" Width="800"
         WindowStyle="None"
         Background="Transparent"
         AllowsTransparency="True"
@@ -29,6 +29,10 @@
             <Label Foreground="White" Background="Transparent" Grid.Row ="1" Grid.Column="0" Margin="10,-4,10,391">All Apps</Label>
             <Label Foreground="White" Background="Transparent" Grid.Row ="1" Grid.Column="1" Margin="10,-4,10,391">Selected Apps</Label>
 
+            <Button Padding="0" Background="Transparent"  BorderBrush="Transparent" Foreground="White" Click="ExitApp"
+            Width="Auto" 
+            HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+            FontSize="25" Content="X" Grid.Column="2" Margin="351,-3,0,0" />
 
             <Border Grid.Row ="1" Grid.Column="0" >
                 <ListBox SelectionChanged="AddSelectedProcess" Margin="10,20,10,10" Foreground="White" Background="#1c4954" x:Name="FullProcessList" ></ListBox>
@@ -43,8 +47,10 @@
             <Button Grid.Row ="1" Grid.Column="2" FontWeight="Bold" FontSize="12" BorderThickness="1" Content="Pause" x:Name="PauseButton" Margin="100,10,100,386" Background="Aquamarine" Click="StopTimer"></Button>
 
             <Label FontSize="20" HorizontalAlignment="Center" Content="Elapsed Time:" Foreground="White" Grid.Row ="1" Grid.Column="2" Margin="0,74,0,309"/>
-            <Label FontSize="20" HorizontalContentAlignment="Center" Content="" x:Name="ElapsedTime" Foreground="White" Grid.Row ="1" Grid.Column="2" Margin="86,114,86,269" Width="207"/>
+            <Label FontSize="20" HorizontalContentAlignment="Center" Content="" x:Name="ElapsedTime" Foreground="White" Grid.Row ="1" Grid.Column="2" Margin="108,114,108,269"/>
 
+            <RibbonTextBox x:Name="Timeout" Grid.Row ="1" Text="10" Grid.Column="2" Margin="86,228,259,167"/>
+            <Label FontSize="12" HorizontalAlignment="Left" Content="Inactive Timer:" Foreground="White" Grid.Row ="1" Grid.Column="2" Margin="5,227,0,157"/>
 
         </Grid>
     </Border>

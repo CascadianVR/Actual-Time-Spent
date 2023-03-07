@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace Work_Timer_App
+namespace Actual_Time_Spent
 {
     /// <summary>
     /// Interaction logic for App.xaml
