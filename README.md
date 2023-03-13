@@ -1,5 +1,5 @@
 # Actual-Time-Spent
-A simple applicaiton that tracks time spent active over every selected aplication. When none of the selected applicaitons are in-focus, the timer stops. It will also stop ofer a certain amount of idle time (set by user).
+A simple applicaiton that tracks time spent active over every selected program. When none of the selected applicaitons are in-focus, the timer stops. It will also stop ofer a certain amount of idle time (set by user).
 
 ## Download
 https://github.com/CascadianWorks/Actual-Time-Spent/releases
